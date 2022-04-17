@@ -2,7 +2,9 @@ package vitorluc.bankaccount.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import vitorluc.bankaccount.entities.Agencia;
 import vitorluc.bankaccount.entities.ContaCorrente;
+import vitorluc.bankaccount.entities.CriaConta;
 import vitorluc.bankaccount.repositories.ContaCorrenteRepository;
 
 import javax.transaction.Transactional;
@@ -15,6 +17,18 @@ import java.util.List;
 public class ContaCorrenteService {
 
     private final ContaCorrenteRepository repository;
+    private final AgenciaService agenciaService;
+
+    public ContaCorrente  criarConta(CriaConta criaConta){
+        Agencia agencia = agenciaService.buscarPorId(criaConta.getNumAgencia());
+        if (!(criaConta.getSaldo() > 0)){
+            throw new RuntimeException("Saldo inicial deve ser maior que 0!");
+        }
+        ContaCorrente cc = new ContaCorrente();
+        cc.setSaldo(criaConta.getSaldo());
+        cc.setAgencia(agencia);
+        return cc;
+    }
 
     public Double consultarSaldo(Long numConta, Long numAgencia){
         ContaCorrente cc = repository.buscarPorContaAgencia(numConta, numAgencia)
