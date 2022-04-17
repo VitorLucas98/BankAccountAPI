@@ -8,6 +8,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Setter
@@ -28,4 +30,7 @@ public class Correntista implements Serializable {
 
     @Column(nullable = false)
     private LocalDate dataNascimento;
+
+    @OneToMany(mappedBy = "correntista")
+    private List<ContaCorrente> contas = new ArrayList<>();
 }

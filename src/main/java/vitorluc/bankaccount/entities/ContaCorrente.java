@@ -1,5 +1,6 @@
 package vitorluc.bankaccount.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,12 +20,13 @@ public class ContaCorrente implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_correntista", referencedColumnName = "id")
+    @JsonIgnore
     private Correntista correntista;
 
     @OneToOne
-    @JoinColumn(name = "id_correntista", referencedColumnName = "id")
+    @JoinColumn(name = "id_agencia", referencedColumnName = "id")
     private  Agencia agencia;
 
     private Double limite;
